@@ -1,5 +1,5 @@
 {
-  "name": "canvas-particle",
+  "name": "canvas-particles",
   "description": "html5 canvas particle animation",
   "main": "index.js",
   "version": "0.0.0",
@@ -17,7 +17,7 @@
   "author": "Nick Thomas <nichoth@gmail.com>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/nichoth/canvas-particle.git"
+    "url": "https://github.com/nichoth/canvas-particles.git"
   },
   "license": "ISC",
   "peerDependencies": {},
