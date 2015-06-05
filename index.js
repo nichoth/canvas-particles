@@ -1,62 +1,71 @@
 module.exports = Particles;
 
-function Particles(canvas, opts) {
+function Particles(opts) {
   if ( !(this instanceof Particles) ) {
-    return new Particles(canvas, opts);
+    return new Particles(opts);
   }
-  this.canvas = canvas;
-  this.ctx = canvas.getContext("2d");
   this.opts = opts || {};
-
-  // black canvas
-  this.ctx.fillRect(0, 0, canvas.width, canvas.height);
-
+  this.maxParticles = this.opts.maxParticles || 500;
   this.ps = [];
 }
 
 // main loop
-Particles.prototype.loop = function() {
+Particles.prototype.loop = function(canvas) {
   setInterval(function() {
-    this.draw();
+    this.draw(canvas);
   }.bind(this), 30);
   return this;
 };
 
-Particles.prototype.draw = function draw() {
+Particles.prototype.draw = function draw(canvas) {
   var ps = this.ps;
+  var ctx = canvas.getContext('2d');
+  this.opts.origin = this.opts.origin ||
+    { x: canvas.width / 2, y: canvas.width / 2 }
+  ;
+
   // Erase canvas
-  this.ctx.fillStyle = "black";
-  this.ctx.fillRect(0,0, this.canvas.width, this.canvas.height);
+  ctx.fillStyle = "black";
+  ctx.fillRect(0,0, canvas.width, canvas.height);
 
   // create new particles
   for (var i = 5; i >= 0; i--) {
     ps.push(new Particle({
-      startX: this.canvas.width / 2,
-      startY: this.canvas.height / 4
+      origin: {
+        x: canvas.width / 2,
+        y: canvas.height / 2
+      }
     }));
   }
 
   // remove old particles
-  // todo: change this so it removes them when they fall off the canvas
-  if (ps.length > 500) {
-    ps = ps.slice(ps.length-500);
+  if (ps.length > this.maxParticles) {
+    ps = ps.slice(ps.length - this.maxParticles);
   }
 
   ps.forEach(function(p) {
     p.update();
     // Draw a circle particle on the canvas
-    this.ctx.beginPath();
-    this.ctx.fillStyle = p.color;
-    // After setting the fill style, draw an arc on the canvas
-    this.ctx.arc(p.x, p.y, p.size, 0, Math.PI*2, true);
-    this.ctx.closePath();
-    this.ctx.fill();
+    ctx.beginPath();
+    ctx.fillStyle = p.color;
+    ctx.arc(p.x, p.y, p.size, 0, Math.PI*2, true);
+    ctx.closePath();
+    ctx.fill();
   }, this);
 };
 
+function getOrigin(origin) {
+  if (typeof origin === 'function') {
+    return origin();
+  } else {
+    return origin;
+  }
+}
+
 function Particle(opts) {
-  this.x = opts.startX || 0;
-  this.y = opts.startY || 0;
+  var o = getOrigin(opts.origin);
+  this.x = o.x || 0;
+  this.y = o.y || 0;
   this.size = opts.size || 2;
   this.vx = Math.random() * 10 - 5;
   this.vy = Math.random() * 10 -5;
