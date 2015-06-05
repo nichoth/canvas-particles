@@ -3,6 +3,12 @@
   "description": "html5 canvas particle animation",
   "main": "index.js",
   "version": "0.0.1",
+  "keywords": [
+    "html5",
+    "canvas",
+    "animation",
+    "particles"
+  ],
   "browserify": {
     "transform": []
   },
