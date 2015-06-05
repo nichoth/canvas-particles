@@ -2,7 +2,7 @@
   "name": "canvas-particles",
   "description": "html5 canvas particle animation",
   "main": "index.js",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "keywords": [
     "html5",
     "canvas",
