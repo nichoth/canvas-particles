@@ -24,8 +24,6 @@ window.onload = function() {
 };
 ```
 
-----
-
 Falling particles with random origin and random x velocity. [Demo](https://46d4f2710256d480010a4f5574809031ee2fbcdc.htmlb.in/).
 
 ```js
@@ -64,6 +62,7 @@ var particles = Particles({
 ```js
 // options and their defaults, none are required
 var particles = Particles({
+  maxParticles: 500,  // max number of particles to keep in memory
   origin: {  // pass a hash or a function that returns a hash
     x: canvas.width / 2,
     y: canvas.height / 2
