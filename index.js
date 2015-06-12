@@ -1,3 +1,5 @@
+var defined = require('defined');
+
 module.exports = Particles;
 
 function Particles(opts) {
@@ -21,7 +23,7 @@ Particles.prototype.draw = function draw(canvas) {
   var ps = this.ps;
   var ctx = canvas.getContext('2d');
   this.opts.origin = this.opts.origin ||
-    { x: canvas.width / 2, y: canvas.width / 2 }
+    { x: canvas.width / 2, y: canvas.height / 2 }
   ;
 
   // Erase canvas
@@ -30,12 +32,7 @@ Particles.prototype.draw = function draw(canvas) {
 
   // create new particles
   for (var i = 5; i >= 0; i--) {
-    ps.push(new Particle({
-      origin: {
-        x: canvas.width / 2,
-        y: canvas.height / 2
-      }
-    }));
+    ps.push(new Particle(this.opts));
   }
 
   // remove old particles
@@ -54,23 +51,25 @@ Particles.prototype.draw = function draw(canvas) {
   }, this);
 };
 
-function getOrigin(origin) {
-  if (typeof origin === 'function') {
-    return origin();
+function callOrNot(opt) {
+  if (typeof opt === 'function') {
+    return opt();
   } else {
-    return origin;
+    return opt;
   }
 }
 
 function Particle(opts) {
-  var o = getOrigin(opts.origin);
-  this.x = o.x || 0;
-  this.y = o.y || 0;
-  this.size = opts.size || 2;
-  this.vx = Math.random() * 10 - 5;
-  this.vy = Math.random() * 10 -5;
-  this.gravity = opts.gravity || 0;
-  this.color = opts.color || 'white';
+  var o = callOrNot(opts.origin);
+  this.x = defined(o.x, 0);
+  this.y = defined(o.y, 0);
+  this.size = defined(opts.size, 2);
+  var vx = callOrNot(opts.vx);
+  var vy = callOrNot(opts.vy);
+  this.vx = defined(vx, Math.random() * 10 - 5);
+  this.vy = defined(vy, Math.random() * 10 -5);
+  this.gravity = defined(opts.gravity, 0);
+  this.color = defined(opts.color, 'white');
 }
 
 Particle.prototype.update = function update() {
