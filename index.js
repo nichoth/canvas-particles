@@ -69,7 +69,7 @@ function Particle(opts) {
   this.vx = defined(vx, Math.random() * 10 - 5);
   this.vy = defined(vy, Math.random() * 10 -5);
   this.gravity = defined(opts.gravity, 0);
-  this.color = defined(opts.color, 'white');
+  this.color = defined(callOrNot(opts.color), 'white');
 }
 
 Particle.prototype.update = function update() {

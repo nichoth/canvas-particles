@@ -71,6 +71,6 @@ var particles = Particles({
   vx = Math.random() * 10 - 5,  // x velocity - can be function or number
   vy = Math.random() * 10 - 5,  // y velocity - can be function or number
   gravity = 0,
-  color = 'white'
+  color = 'white'  // string or function
 })
 ```
