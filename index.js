@@ -6,8 +6,9 @@ function Particles(opts) {
   if ( !(this instanceof Particles) ) {
     return new Particles(opts);
   }
-  this.opts = opts || {};
-  this.maxParticles = this.opts.maxParticles || 500;
+  this.opts = defined(opts, {});
+  this.maxParticles = defined(this.opts.maxParticles, 500);
+  this.density = defined(this.opts.density, 5);
   this.ps = [];
 }
 
@@ -31,7 +32,7 @@ Particles.prototype.draw = function draw(canvas) {
   ctx.fillRect(0,0, canvas.width, canvas.height);
 
   // create new particles
-  for (var i = 5; i >= 0; i--) {
+  for (var i = this.density; i >= 0; i--) {
     ps.push(new Particle(this.opts));
   }
 
@@ -70,10 +71,11 @@ function Particle(opts) {
   this.vy = defined(vy, Math.random() * 10 -5);
   this.gravity = defined(opts.gravity, 0);
   this.color = defined(callOrNot(opts.color), 'white');
+  this.wobble = defined(opts.wobble, function(){/* noop */});
 }
 
 Particle.prototype.update = function update() {
-  this.x += this.vx;
+  this.x += (this.vx + this.wobble());
   this.y += this.vy;
   this.vy += this.gravity;
 };

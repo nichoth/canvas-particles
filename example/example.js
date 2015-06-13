@@ -16,9 +16,10 @@ window.onload = function() {
   var yMin = ((canvas.height/2) - range);
 
   var particles = Particles({
-    gravity: 0.09,
+    density: 0,
+    gravity: 0.03,
     vx: function() {
-      return Math.random() * 3 - 1.5;
+      return Math.random() * 1.5 - 0.75;
     },
     vy: 0,
     origin: function() {
@@ -26,6 +27,9 @@ window.onload = function() {
         x: Math.random() * (xMax - xMin) + xMin,
         y: Math.random() * (yMax - yMin) + yMin
       };
+    },
+    wobble: function() {
+      return Math.random() + 1 - 1.5;
     }
   }).loop(canvas);
 
