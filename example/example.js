@@ -9,6 +9,7 @@ window.onload = function() {
   document.body.appendChild(canvas);
 
   // falling particles with random x velocity and random origin
+  // black particles on white canvas
   var range = 50;
   var xMax = ((canvas.width / 2) + range);
   var xMin = ((canvas.width/2) - range);
@@ -28,9 +29,14 @@ window.onload = function() {
         y: Math.random() * (yMax - yMin) + yMin
       };
     },
+    color: 'black',
     wobble: function() {
       return Math.random() + 1 - 1.5;
     }
-  }).loop(canvas);
-
+  }).loop(canvas, redrawFn);
 };
+
+function redrawFn(ctx) {
+  ctx.fillStyle = "white";
+  ctx.fillRect(0,0, canvas.width, canvas.height);
+}

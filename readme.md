@@ -19,42 +19,60 @@ window.onload = function() {
   canvas.getContext("2d").fillRect(0, 0, canvas.width, canvas.height);
   document.body.appendChild(canvas);
 
-  var particles = Particles().loop(canvas);
-
+  var particles = Particles().loop(canvas, redrawFn);
 };
+
+// called on every frame before the particles happen
+function redrawFn(ctx) {
+  ctx.fillStyle = "black";
+  ctx.fillRect(0,0, canvas.width, canvas.height);
+}
 ```
 
-Falling particles with random origin and random x velocity. [Demo](https://46d4f2710256d480010a4f5574809031ee2fbcdc.htmlb.in/).
+Falling particles with random origin and random x velocity. [Demo](https://c5ad0164a9503aaba7ebdb89442488d6dd7d3a75.htmlb.in).
 
 ```js
-var canvas = document.createElement("canvas");
-canvas.width = 800;
-canvas.height = 500;
-canvas.getContext("2d").fillRect(0, 0, canvas.width, canvas.height);
-document.body.appendChild(canvas);
+var Particles = require('../');
 
-var range = 50;
-var xMax = ((canvas.width / 2) + range);
-var xMin = ((canvas.width/2) - range);
-var yMax = ((canvas.height / 2) + range);
-var yMin = ((canvas.height/2) - range);
+window.onload = function() {
 
-var particles = Particles({
-  gravity: 0.09,
+  var canvas = document.createElement("canvas");
+  canvas.width = 800;
+  canvas.height = 500;
+  canvas.getContext("2d").fillRect(0, 0, canvas.width, canvas.height);
+  document.body.appendChild(canvas);
 
-  vx: function() {
-    return Math.random() * 3 - 1.5;
-  },
+  // falling particles with random x velocity and random origin
+  var range = 50;
+  var xMax = ((canvas.width / 2) + range);
+  var xMin = ((canvas.width/2) - range);
+  var yMax = ((canvas.height / 2) + range);
+  var yMin = ((canvas.height/2) - range);
 
-  vy: 0,
-  
-  origin: function() {
-    return {
-      x: Math.random() * (xMax - xMin) + xMin,
-      y: Math.random() * (yMax - yMin) + yMin
-    };
-  }
-}).loop(canvas);
+  var particles = Particles({
+    density: 0,
+    gravity: 0.03,
+    vx: function() {
+      return Math.random() * 1.5 - 0.75;
+    },
+    vy: 0,
+    origin: function() {
+      return {
+        x: Math.random() * (xMax - xMin) + xMin,
+        y: Math.random() * (yMax - yMin) + yMin
+      };
+    },
+    color: 'black',
+    wobble: function() {
+      return Math.random() + 1 - 1.5;
+    }
+  }).loop(canvas, redrawFn);
+};
+
+function redrawFn(ctx) {
+  ctx.fillStyle = "white";
+  ctx.fillRect(0,0, canvas.width, canvas.height);
+}
 ```
 
 ## Configuration

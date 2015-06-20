@@ -13,14 +13,14 @@ function Particles(opts) {
 }
 
 // main loop
-Particles.prototype.loop = function(canvas) {
+Particles.prototype.loop = function(canvas, updater) {
   setInterval(function() {
-    this.draw(canvas);
+    this.draw(canvas, updater);
   }.bind(this), 30);
   return this;
 };
 
-Particles.prototype.draw = function draw(canvas) {
+Particles.prototype.draw = function draw(canvas, updater) {
   var ps = this.ps;
   var ctx = canvas.getContext('2d');
   this.opts.origin = this.opts.origin ||
@@ -28,8 +28,7 @@ Particles.prototype.draw = function draw(canvas) {
   ;
 
   // Erase canvas
-  ctx.fillStyle = "black";
-  ctx.fillRect(0,0, canvas.width, canvas.height);
+  updater(ctx);
 
   // create new particles
   for (var i = this.density; i >= 0; i--) {
