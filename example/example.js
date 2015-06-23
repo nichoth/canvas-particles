@@ -34,9 +34,9 @@ window.onload = function() {
       return Math.random() + 1 - 1.5;
     }
   }).loop(canvas, redrawFn);
-};
 
-function redrawFn(ctx) {
-  ctx.fillStyle = "white";
-  ctx.fillRect(0,0, canvas.width, canvas.height);
-}
+  function redrawFn(ctx) {
+    ctx.fillStyle = "white";
+    ctx.fillRect(0,0, canvas.width, canvas.height);
+  }
+};

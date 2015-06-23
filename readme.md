@@ -29,7 +29,7 @@ function redrawFn(ctx) {
 }
 ```
 
-Falling particles with random origin and random x velocity. [Demo](https://c5ad0164a9503aaba7ebdb89442488d6dd7d3a75.htmlb.in).
+Falling particles with random origin and random x velocity. [Demo](https://f62107c4169d75f8e6fa03f66cb2b9c85c447881.htmlb.in).
 
 ```js
 var Particles = require('../');
