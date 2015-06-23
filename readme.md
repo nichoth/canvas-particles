@@ -20,13 +20,14 @@ window.onload = function() {
   document.body.appendChild(canvas);
 
   var particles = Particles().loop(canvas, redrawFn);
+
+  // called on every frame before the particles happen
+  function redrawFn(ctx) {
+    ctx.fillStyle = "black";
+    ctx.fillRect(0,0, canvas.width, canvas.height);
+  }
 };
 
-// called on every frame before the particles happen
-function redrawFn(ctx) {
-  ctx.fillStyle = "black";
-  ctx.fillRect(0,0, canvas.width, canvas.height);
-}
 ```
 
 Falling particles with random origin and random x velocity. [Demo](https://f62107c4169d75f8e6fa03f66cb2b9c85c447881.htmlb.in).
@@ -67,12 +68,13 @@ window.onload = function() {
       return Math.random() + 1 - 1.5;
     }
   }).loop(canvas, redrawFn);
+  
+  function redrawFn(ctx) {
+    ctx.fillStyle = "white";
+    ctx.fillRect(0,0, canvas.width, canvas.height);
+  }
 };
 
-function redrawFn(ctx) {
-  ctx.fillStyle = "white";
-  ctx.fillRect(0,0, canvas.width, canvas.height);
-}
 ```
 
 ## Configuration
