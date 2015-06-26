@@ -1,4 +1,5 @@
 var defined = require('defined');
+var raf = require('raf');
 
 module.exports = Particles;
 
@@ -14,10 +15,10 @@ function Particles(opts) {
 
 // main loop
 Particles.prototype.loop = function(canvas, updater) {
-  setInterval(function() {
+  raf(function tick() {
     this.draw(canvas, updater);
-  }.bind(this), 30);
-  return this;
+    raf(tick.bind(this));
+  }.bind(this));
 };
 
 Particles.prototype.draw = function draw(canvas, updater) {
@@ -32,7 +33,9 @@ Particles.prototype.draw = function draw(canvas, updater) {
 
   // create new particles
   for (var i = this.density; i >= 0; i--) {
-    ps.push(new Particle(this.opts));
+    if (Math.random() > 0.75) {
+      ps.push(new Particle(this.opts));
+    }
   }
 
   // remove old particles
